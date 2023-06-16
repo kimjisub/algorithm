@@ -1,0 +1,41 @@
+use std::io::{self, BufRead};
+use std::collections::VecDeque;
+
+fn main() {
+let stdin = io::stdin();
+let mut lines = stdin.lock().lines();
+let t: i32 = lines.next().unwrap().unwrap().trim().parse().unwrap();
+
+    for _ in 0..t {
+        let mut stack = VecDeque::new();
+        let input = lines.next().unwrap().unwrap();
+        let mut is_vps = true;
+
+        for c in input.chars() {
+            if c == '(' {
+                stack.push_front(c);
+            } else {
+                if let Some(front) = stack.pop_front() {
+                    if front != '(' {
+                        is_vps = false;
+                        break;
+                    }
+                } else {
+                    is_vps = false;
+                    break;
+                }
+            }
+        }
+
+        if !stack.is_empty() {
+            is_vps = false;
+        }
+
+        if is_vps {
+            println!("YES");
+        } else {
+            println!("NO");
+        }
+    }
+
+}
